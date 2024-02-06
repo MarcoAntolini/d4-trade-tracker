@@ -35,7 +35,9 @@ export default function Page() {
 
 	useEffect(() => {
 		checkMaterials();
-		sendNotification();
+		if (newMatchingMaterials.length > 0) {
+			sendNotification();
+		}
 	}, [response]);
 
 	async function fetchData() {
@@ -72,6 +74,7 @@ export default function Page() {
 					new Notification("New item found", {
 						body: notificationBody,
 						requireInteraction: true,
+						icon: "/logo.png",
 					});
 				}
 			});
