@@ -22,7 +22,7 @@ type Material = {
 // l'user sceglie quale boss vuole monitorare (pulsante + per aggiungere nuovo)
 
 export default function Page() {
-	const refreshRate = 10000;
+	const refreshRate = 2000;
 	const [priceLimit, setPriceLimit] = useState<number>(10000000);
 	const [response, setResponse] = useState<Material[]>([]);
 	const [oldMatchingMaterials, setOldMatchingMaterials] = useState<Material[]>([]);
@@ -65,7 +65,9 @@ export default function Page() {
 				if (result === "granted") {
 					newMatchingMaterials.forEach((material) => {
 						const notification = new Notification("New item found", {
-							body: `${material.quantity} ${material.name} are available for ${material.price} gold each.\n Click here to visit the user's items page.`,
+							body: `${material.quantity} ${material.name} are available for ${material.price
+								.toString()
+								.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} gold each.\n Click here to visit the user's items page.`,
 							icon: "/logo.png",
 							requireInteraction: true,
 						});
