@@ -63,18 +63,18 @@ export default function Page() {
 	}
 
 	function sendNotification() {
-		let notificationBody = "";
-		newMatchingMaterials.forEach((material) => {
-			notificationBody += `${material.quantity} ${material.name} are available for ${material.price} gold each at https://diablo.trade/user/${material.userId._id}/items.\n`;
-		});
-		console.log(notificationBody);
 		if ("Notification" in window) {
 			Notification.requestPermission().then((result) => {
 				if (result === "granted") {
-					new Notification("New item found", {
-						body: notificationBody,
-						requireInteraction: true,
-						icon: "/logo.png",
+					newMatchingMaterials.forEach((material) => {
+						const notification = new Notification("New item found", {
+							body: `${material.quantity} ${material.name} are available for ${material.price} gold each at https://diablo.trade/user/${material.userId._id}/items.\n`,
+							icon: "/logo.png",
+							requireInteraction: true,
+						});
+						notification.onclick = () => {
+							window.open(`https://diablo.trade/user/${material.userId._id}/items.\n`);
+						};
 					});
 				}
 			});
