@@ -47,7 +47,6 @@ export default function Page() {
 	}
 
 	function checkMaterials() {
-		console.log("1", { response, oldMatchingMaterials, newMatchingMaterials });
 		const filteredNewMatchingMaterials = response.filter(
 			(material) =>
 				material.price <= priceLimit &&
@@ -55,11 +54,9 @@ export default function Page() {
 					(oldMaterial) => oldMaterial._id === material._id && oldMaterial.price === material.price
 				)
 		);
-
 		setNewMatchingMaterials(filteredNewMatchingMaterials);
 		const updatedOldMatchingMaterials = response.filter((material) => material.price <= priceLimit);
 		setOldMatchingMaterials(updatedOldMatchingMaterials);
-		console.log("2", { response, oldMatchingMaterials, newMatchingMaterials });
 	}
 
 	function sendNotification() {
@@ -68,12 +65,12 @@ export default function Page() {
 				if (result === "granted") {
 					newMatchingMaterials.forEach((material) => {
 						const notification = new Notification("New item found", {
-							body: `${material.quantity} ${material.name} are available for ${material.price} gold each at https://diablo.trade/user/${material.userId._id}/items.\n`,
+							body: `${material.quantity} ${material.name} are available for ${material.price} gold each.\n Click here to visit the user's items page.`,
 							icon: "/logo.png",
 							requireInteraction: true,
 						});
 						notification.onclick = () => {
-							window.open(`https://diablo.trade/user/${material.userId._id}/items.\n`);
+							window.open(`https://diablo.trade/user/${material.userId._id}/items`);
 						};
 					});
 				}
