@@ -41,7 +41,7 @@ export default function Page() {
 	}, [response]);
 
 	async function fetchData() {
-		const response = await fetch("/api/boss-mats/duriel");
+		const response = await fetch("/api/boss-mats/shard-of-agony");
 		const data: Material[] = await response.json();
 		setResponse(data);
 	}
@@ -64,7 +64,7 @@ export default function Page() {
 			Notification.requestPermission().then((result) => {
 				if (result === "granted") {
 					newMatchingMaterials.forEach((material) => {
-						const notification = new Notification("New item found", {
+						const notification = new Notification("New listing found!", {
 							body: `${material.quantity} ${material.name} are available for ${material.price
 								.toString()
 								.replace(/\B(?=(\d{3})+(?!\d))/g, ",")} gold each.\n Click here to visit the user's items page.`,
@@ -72,7 +72,7 @@ export default function Page() {
 							requireInteraction: true,
 						});
 						notification.onclick = () => {
-							window.open(`https://diablo.trade/user/${material.userId._id}/items`);
+							window.open(`https://diablo.trade/user/${material.userId._id}/items?`);
 						};
 					});
 				}
